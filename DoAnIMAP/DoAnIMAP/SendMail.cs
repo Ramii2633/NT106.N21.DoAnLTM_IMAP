@@ -82,6 +82,7 @@ namespace DoAnIMAP
         private void btnAttach_Click(object sender, EventArgs e)
         {
             dlgAttach.Filter = "All Files (*.*)|*.*";
+            dlgAttach.Multiselect = true;
             if (dlgAttach.ShowDialog() == DialogResult.OK)
             {
                 var attachment = new MimePart()
@@ -93,8 +94,8 @@ namespace DoAnIMAP
                 };
                 attachments.Add(attachment);
                 // Lưu đường dẫn tệp tin vào TextBox
-                tbAttach.Text = dlgAttach.FileName;
-                MessageBox.Show("Đã đính kèm tệp tin " + dlgAttach.FileName, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                tbAttach.Text += dlgAttach.FileName + "; ";
+                MessageBox.Show("Đã đính kèm tệp tin!", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
