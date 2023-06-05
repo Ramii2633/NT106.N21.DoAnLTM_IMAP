@@ -38,7 +38,7 @@
             tbFrom = new TextBox();
             label1 = new Label();
             label5 = new Label();
-            textBox1 = new TextBox();
+            tbAttach = new TextBox();
             btnAttach = new Button();
             checkHtml = new CheckBox();
             SuspendLayout();
@@ -128,12 +128,12 @@
             label5.TabIndex = 18;
             label5.Text = "Attachment:";
             // 
-            // textBox1
+            // tbAttach
             // 
-            textBox1.Location = new Point(120, 798);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(705, 31);
-            textBox1.TabIndex = 19;
+            tbAttach.Location = new Point(120, 798);
+            tbAttach.Name = "tbAttach";
+            tbAttach.Size = new Size(705, 31);
+            tbAttach.TabIndex = 19;
             // 
             // btnAttach
             // 
@@ -143,6 +143,7 @@
             btnAttach.TabIndex = 20;
             btnAttach.Text = "Browse...";
             btnAttach.UseVisualStyleBackColor = true;
+            btnAttach.Click += btnAttach_Click;
             // 
             // checkHtml
             // 
@@ -161,7 +162,7 @@
             ClientSize = new Size(981, 903);
             Controls.Add(checkHtml);
             Controls.Add(btnAttach);
-            Controls.Add(textBox1);
+            Controls.Add(tbAttach);
             Controls.Add(label5);
             Controls.Add(tbFrom);
             Controls.Add(label1);
@@ -190,7 +191,7 @@
         private TextBox tbFrom;
         private Label label1;
         private Label label5;
-        private TextBox textBox1;
+        private TextBox tbAttach;
         private Button btnAttach;
         private CheckBox checkHtml;
     }

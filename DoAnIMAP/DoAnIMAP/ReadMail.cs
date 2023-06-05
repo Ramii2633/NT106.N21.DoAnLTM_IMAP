@@ -38,12 +38,13 @@ namespace DoAnIMAP
 
         private bool _isHtml = false;
 
+        private ImapClient imapClient;
         private void ReadMail1()
         {
             lvEmail.Items.Clear();
             try
             {
-                var imapClient = new ImapClient();
+                imapClient = new ImapClient();
                 imapClient.Connect("imap.gmail.com", 993, true);
                 imapClient.Authenticate(Emailuser, Pass);
 
@@ -120,26 +121,6 @@ namespace DoAnIMAP
             }
         }
 
-        private void lvEmail_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lvEmail.SelectedItems.Count > 0)
-            {
-                try
-                {
-                    // Lấy đối tượng message tương ứng từ server
-                    var message = GetMessageFromServer(lvEmail.SelectedItems[0].Text);
-
-                    // Hiển thị nội dung email trong form mới
-                    var emailForm = new ViewMail(message);
-                    emailForm.Show();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private MimeMessage GetMessageFromServer(string subject)
         {
             //Đăng nhập với IMAP
@@ -170,5 +151,69 @@ namespace DoAnIMAP
             var Send = new SendMail(Emailuser, Pass);
             Send.Show();
         }
+
+        private void btnF5_Click(object sender, EventArgs e)
+        {
+            ReadMail1();
+        }
+
+        private void lvEmail_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lvEmail.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    // Lấy đối tượng message tương ứng từ server
+                    var message = GetMessageFromServer(lvEmail.SelectedItems[0].Text);
+
+                    // Hiển thị nội dung email trong form mới
+                    var emailForm = new ViewMail(Emailuser, Pass, message);
+                    emailForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+       
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            // Ngắt kết nối với server
+            imapClient.Disconnect(true);
+
+            // Tạo ds chứa tạm các form đang mở 
+            List<Form> openForms = new List<Form>();
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form != this && form.Name != "Login")
+                {
+                    openForms.Add(form);
+                }
+            }
+
+            // Đóng các form đang mở từ danh sách tạm thời
+            foreach (Form form in openForms)
+            {
+                form.Close();
+            }
+
+            // Đóng form Login cũ nếu có
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form.Name == "Login" && form != this)
+                {
+                    form.Close();
+                }
+            }
+
+            //var loginForm = new Login();
+            //loginForm.Show();
+            //Application.DoEvents();
+
+            this.Close();
+        }
+
+
     }
 }

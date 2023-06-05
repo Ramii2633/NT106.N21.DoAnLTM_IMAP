@@ -43,8 +43,15 @@ namespace DoAnIMAP
                     var imapClient = new ImapClient();
                     imapClient.Connect("imap.gmail.com", 993, true);
                     imapClient.Authenticate(email, pass);
-                    var Login = new ReadMail(email, pass);
-                    Login.Show();
+                    var Read = new ReadMail(email, pass);
+
+                    Read.Load += async (s, ea) =>
+                    {
+                        await Task.Delay(1000); // đợi 1 giây
+                        this.Hide(); // ẩn form đăng nhập
+                    };
+                    
+                    Read.Show();
                 }
             }
             catch (AuthenticationException ex)

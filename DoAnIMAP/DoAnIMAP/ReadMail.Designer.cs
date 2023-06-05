@@ -34,7 +34,7 @@
             label1 = new Label();
             btnSend = new Button();
             btnF5 = new Button();
-            button3 = new Button();
+            btnLogOut = new Button();
             lvEmail = new ListView();
             Email = new ColumnHeader();
             From = new ColumnHeader();
@@ -108,15 +108,17 @@
             btnF5.TabIndex = 18;
             btnF5.Text = "Refresh";
             btnF5.UseVisualStyleBackColor = true;
+            btnF5.Click += btnF5_Click;
             // 
-            // button3
+            // btnLogOut
             // 
-            button3.Location = new Point(320, 85);
-            button3.Name = "button3";
-            button3.Size = new Size(112, 34);
-            button3.TabIndex = 19;
-            button3.Text = "Log Out";
-            button3.UseVisualStyleBackColor = true;
+            btnLogOut.Location = new Point(320, 85);
+            btnLogOut.Name = "btnLogOut";
+            btnLogOut.Size = new Size(112, 34);
+            btnLogOut.TabIndex = 19;
+            btnLogOut.Text = "Log Out";
+            btnLogOut.UseVisualStyleBackColor = true;
+            btnLogOut.Click += btnLogOut_Click;
             // 
             // lvEmail
             // 
@@ -127,6 +129,7 @@
             lvEmail.TabIndex = 20;
             lvEmail.UseCompatibleStateImageBehavior = false;
             lvEmail.View = View.Details;
+            lvEmail.SelectedIndexChanged += lvEmail_SelectedIndexChanged;
             // 
             // Email
             // 
@@ -148,7 +151,7 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(tbEmail);
             panel1.Controls.Add(label1);
-            panel1.Controls.Add(button3);
+            panel1.Controls.Add(btnLogOut);
             panel1.Controls.Add(btnSend);
             panel1.Controls.Add(btnF5);
             panel1.Location = new Point(12, 19);
@@ -287,7 +290,7 @@
         private Label label1;
         private Button btnSend;
         private Button btnF5;
-        private Button button3;
+        private Button btnLogOut;
         private ListView lvEmail;
         private Panel panel1;
         private Label label2;
