@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel.DataAnnotations;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
+
 
 namespace DoAnIMAP
 {
@@ -61,21 +63,26 @@ namespace DoAnIMAP
                     var message = inbox.GetMessage(i);
                     messages.Add(message);
                 }
-
+                int Num = 1;
                 // Thêm các email vào ListView theo thứ tự từ trên xuống dưới
                 for (int i = messages.Count - 1; i >= 0; i--)
                 {
                     var message = messages[i];
-                    ListViewItem item = new ListViewItem();
+                    ListViewItem item = new ListViewItem(Num.ToString());
+                    //Thiết lập giá trị cột #
+                    item.Text = Num.ToString();
+
+                    // Thiết lập giá trị cột "Tiêu đề"
+                    item.SubItems.Add(new ListViewItem.ListViewSubItem()
+                    {
+                        Text = message.Subject
+                    }); 
 
                     // Thiết lập giá trị cột "Người gửi"
                     item.SubItems.Add(new ListViewItem.ListViewSubItem()
                     {
                         Text = message.From.ToString()
                     });
-
-                    // Thiết lập giá trị cột "Tiêu đề"
-                    item.Text = message.Subject;
 
                     // Chuyển đổi thời gian sang múi giờ máy
                     var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
@@ -113,6 +120,8 @@ namespace DoAnIMAP
 
                     // Thêm đối tượng ListViewItem vào ListView
                     lvEmail.Items.Add(item);
+
+                    Num++;
                 }
             }
             catch (Exception ex)
@@ -132,11 +141,12 @@ namespace DoAnIMAP
             var inbox = imapClient.Inbox;
             inbox.Open(FolderAccess.ReadOnly);
 
-            // Tìm email theo tiêu đề
-            var message = inbox.Search(SearchQuery.SubjectContains(subject)).FirstOrDefault();
+            // Tìm email theo stt và tiêu đề
+            ListViewItem item = lvEmail.SelectedItems[0];
+            int num = Int32.Parse(item.SubItems[0].Text);
 
             // Lấy nội dung email tương ứng
-            var mimeMessage = inbox.GetMessage(message);
+            var mimeMessage = inbox.GetMessage(inbox.Count - num);
             var timeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             var localDate = TimeZoneInfo.ConvertTimeFromUtc(mimeMessage.Date.UtcDateTime, timeZone);
 
@@ -157,26 +167,8 @@ namespace DoAnIMAP
             ReadMail1();
         }
 
-        private void lvEmail_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lvEmail.SelectedItems.Count > 0)
-            {
-                try
-                {
-                    // Lấy đối tượng message tương ứng từ server
-                    var message = GetMessageFromServer(lvEmail.SelectedItems[0].Text);
-
-                    // Hiển thị nội dung email trong form mới
-                    var emailForm = new ViewMail(Emailuser, Pass, message);
-                    emailForm.Show();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
        
+
         private void btnLogOut_Click(object sender, EventArgs e)
         {
             // Ngắt kết nối với server
@@ -207,13 +199,27 @@ namespace DoAnIMAP
                 }
             }
 
-            //var loginForm = new Login();
-            //loginForm.Show();
-            //Application.DoEvents();
-
             this.Close();
         }
 
+        private void lvEmail_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (lvEmail.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    // Lấy đối tượng message tương ứng từ server
+                    var message = GetMessageFromServer(lvEmail.SelectedItems[0].Text);
 
+                    // Hiển thị nội dung email trong form mới
+                    var emailForm = new ViewMail(Emailuser, Pass, message);
+                    emailForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Đã xảy ra lỗi: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

@@ -35,10 +35,6 @@
             btnSend = new Button();
             btnF5 = new Button();
             btnLogOut = new Button();
-            lvEmail = new ListView();
-            Email = new ColumnHeader();
-            From = new ColumnHeader();
-            Date_Time = new ColumnHeader();
             panel1 = new Panel();
             label2 = new Label();
             panel2 = new Panel();
@@ -51,6 +47,11 @@
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
+            lvEmail = new ListView();
+            Num = new ColumnHeader();
+            Subject = new ColumnHeader();
+            From = new ColumnHeader();
+            time = new ColumnHeader();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -119,32 +120,6 @@
             btnLogOut.Text = "Log Out";
             btnLogOut.UseVisualStyleBackColor = true;
             btnLogOut.Click += btnLogOut_Click;
-            // 
-            // lvEmail
-            // 
-            lvEmail.Columns.AddRange(new ColumnHeader[] { Email, From, Date_Time });
-            lvEmail.Location = new Point(12, 201);
-            lvEmail.Name = "lvEmail";
-            lvEmail.Size = new Size(1052, 651);
-            lvEmail.TabIndex = 20;
-            lvEmail.UseCompatibleStateImageBehavior = false;
-            lvEmail.View = View.Details;
-            lvEmail.SelectedIndexChanged += lvEmail_SelectedIndexChanged;
-            // 
-            // Email
-            // 
-            Email.Text = "Email";
-            Email.Width = 470;
-            // 
-            // From
-            // 
-            From.Text = "From";
-            From.Width = 350;
-            // 
-            // Date_Time
-            // 
-            Date_Time.Text = "Date-Time";
-            Date_Time.Width = 225;
             // 
             // panel1
             // 
@@ -261,15 +236,46 @@
             label3.TabIndex = 23;
             label3.Text = "Setting";
             // 
+            // lvEmail
+            // 
+            lvEmail.Columns.AddRange(new ColumnHeader[] { Num, Subject, From, time });
+            lvEmail.Location = new Point(12, 201);
+            lvEmail.Name = "lvEmail";
+            lvEmail.Size = new Size(1052, 651);
+            lvEmail.TabIndex = 23;
+            lvEmail.UseCompatibleStateImageBehavior = false;
+            lvEmail.View = View.Details;
+            lvEmail.SelectedIndexChanged += lvEmail_SelectedIndexChanged_1;
+            // 
+            // Num
+            // 
+            Num.Text = "#";
+            Num.Width = 42;
+            // 
+            // Subject
+            // 
+            Subject.Text = "Email";
+            Subject.Width = 490;
+            // 
+            // From
+            // 
+            From.Text = "From";
+            From.Width = 280;
+            // 
+            // time
+            // 
+            time.Text = "Date-Time";
+            time.Width = 240;
+            // 
             // ReadMail
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             ClientSize = new Size(1076, 864);
+            Controls.Add(lvEmail);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(lvEmail);
             Controls.Add(lbRecent);
             Controls.Add(lbTotal);
             Name = "ReadMail";
@@ -291,7 +297,6 @@
         private Button btnSend;
         private Button btnF5;
         private Button btnLogOut;
-        private ListView lvEmail;
         private Panel panel1;
         private Label label2;
         private Panel panel2;
@@ -304,8 +309,10 @@
         private Label label5;
         private Label label4;
         private Label label3;
+        private ListView lvEmail;
+        private ColumnHeader Num;
+        private ColumnHeader Subject;
         private ColumnHeader From;
-        private ColumnHeader Email;
-        private ColumnHeader Date_Time;
+        private ColumnHeader time;
     }
 }
